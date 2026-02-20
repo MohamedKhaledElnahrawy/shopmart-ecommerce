@@ -1,27 +1,25 @@
-import { BrandItem } from '@/Interfaces/brandInterfaces'
-import Image from 'next/image'
-import Link from 'next/link'
-import React from 'react'
+import { BrandItem } from "@/Interfaces/brandInterfaces";
+import Image from "next/image";
+import Link from "next/link";
+import React from "react";
 
-export default function Brand({brand}:{brand:BrandItem}) {
+export default function Brand({ brand }: { brand: BrandItem }) {
   return (
-    <div>
-       <Link
-              href={`/brands/${brand._id}`}
-              className="block"
-            >
-              <div className="border rounded-lg p-4 flex flex-col items-center hover:shadow-md transition">
-                <Image
-                  src={brand.image}
-                  alt={brand.name}
-                  className="w-20 h-20 object-contain mb-2 rounded p-1"
-                  width={400}
-                  height={400}
-                ></Image>
+    <Link href={`/brands/${brand._id}`}>
+      <div className="group rounded-xl p-4 flex flex-col items-center justify-center bg-white border hover:shadow-md transition-all duration-300 min-h-45">
+        <div className="relative w-full h-28 mb-2">
+          <Image
+            src={brand.image}
+            alt={brand.name}
+            fill
+            className="object-contain transition-transform duration-300 group-hover:scale-105 p-2"
+          />
+        </div>
 
-                <p className="text-center font-medium">{brand.name}</p>
-              </div>
-            </Link>
-    </div>
-  )
+        <h3 className="text-sm md:text-md font-semibold text-gray-700 text-center">
+          {brand.name}
+        </h3>
+      </div>
+    </Link>
+  );
 }

@@ -8,6 +8,7 @@ import CategoryDetailsSkeleton from "../skeleton/CategoryDetailSkeleton";
 import Link from "next/link";
 import { getSpecificBrandsAction } from "@/actions/brands.action";
 import { BrandDetailsResponse } from "@/Interfaces/brandInterfaces";
+
 export default function SpecificBrand({id}:{id:string}) {
     const [specificData, setSpecificData] =
       useState<BrandDetailsResponse | null>(null);
@@ -16,6 +17,8 @@ export default function SpecificBrand({id}:{id:string}) {
     const [error, setError] = useState(false);
 
 
+
+    
 
 
     
@@ -115,7 +118,7 @@ export default function SpecificBrand({id}:{id:string}) {
     </div>
   </div>
 </div>
-     </div>
+ </div>
   )
 }
 
