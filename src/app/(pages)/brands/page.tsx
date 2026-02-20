@@ -9,7 +9,6 @@ import { BrandItem, BrandResponse } from "@/Interfaces/brandInterfaces";
 export default async function Brands() {
   const data: BrandResponse = await getAllBrandsAction({
     limit: 20,
-    // page: 1,
   });
   console.log("🚀 ~ handleAllbrands ~ data:", data);
 

@@ -8,13 +8,13 @@ export default function Brand({brand}:{brand:BrandItem}) {
     <div>
        <Link
               href={`/brands/${brand._id}`}
-              className=""
+              className="block"
             >
               <div className="border rounded-lg p-4 flex flex-col items-center hover:shadow-md transition">
                 <Image
                   src={brand.image}
                   alt={brand.name}
-                  className="w-20 h-20 object-cover mb-2 rounded"
+                  className="w-20 h-20 object-contain mb-2 rounded p-1"
                   width={400}
                   height={400}
                 ></Image>
