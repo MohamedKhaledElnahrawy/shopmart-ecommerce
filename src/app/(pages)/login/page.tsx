@@ -13,7 +13,7 @@ import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AuthLoginInterface } from "@/Interfaces/authInterface";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { loginSchema } from "@/app/scema/auth.scema";
 import Link from "next/link";
 import { signIn, SignInResponse } from "next-auth/react";
@@ -21,6 +21,7 @@ import toast from "react-hot-toast";
 
 export default function Register() {
   const [showPass, setShowPass] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const myForm = useForm<AuthLoginInterface>({
     defaultValues: {
@@ -30,29 +31,29 @@ export default function Register() {
     resolver: zodResolver(loginSchema),
     mode: "all",
   });
-
-  async function handleLogin(values: AuthLoginInterface) {
-    const isloading = toast.loading("Please wait...");
-    const response:SignInResponse | undefined = await signIn("credentials", {
-      
+async function handleLogin(values: AuthLoginInterface) {
+  setIsSubmitting(true); 
+  
+  try {
+    const response: SignInResponse | undefined = await signIn("credentials", {
       email: values.email,
       password: values.password,
       redirect: false,
-      // callbackUrl: "/"
     });
-    console.log(response);
+
     if (response?.ok) {
-      toast.success("loded in successfully", { duration: 2000 });
-
-      // eslint-disable-next-line react-hooks/immutability
+      toast.success("Logged in successfully", { duration: 2000 });
       window.location.href = "/"; 
-
     } else {
-      toast.error(response?.error || "login failed", { duration: 2000 });
+      toast.error(response?.error || "Login failed", { duration: 2000 });
       myForm.reset();
     }
-    toast.dismiss(isloading);
+  } catch (error) {
+    console.error(error);
+  } finally {
+    setIsSubmitting(false); 
   }
+}
   return (
     <div>
       <div className="w-1/2 mx-auto my-12">
@@ -121,27 +122,44 @@ export default function Register() {
               )}
             />
 
-            <div className="flex justify-between items-center">
-              <Button
-                className=" mt-4 bg-green-600 hover:bg-green-700"
-                type="submit"
-                suppressHydrationWarning
-              >
-                Login
-              </Button>
-              <Link
-                className="text-sm text-blue-600 hover:underline"
-                href={"/forgetPassword"}
-              >
-                forget password
-              </Link>
-              {/* <Link href={"/register"} className="text-sm text-blue-600 hover:underline ml-4">
-              Dont have an account? Register
-            </Link>  */}
-            </div>
+            <div className="flex flex-col gap-4">
+  <div className="flex justify-between items-center">
+   <Button
+  className="mt-4 bg-green-600 hover:bg-green-700 flex items-center gap-2"
+  type="submit"
+  disabled={isSubmitting} 
+  suppressHydrationWarning
+>
+  {isSubmitting ? (
+    <>
+      <Loader2 className="animate-spin size-4" /> 
+      Please wait...
+    </>
+  ) : (
+    "Login"
+  )}
+</Button>
+    <Link
+      className="text-sm text-blue-600 hover:underline cursor-pointer"
+      href={"/forgetPassword"}
+    >
+      Forget password?
+    </Link>
+  </div>
+
+  <p className="text-sm text-gray-600">
+    Do not have an account?
+    <Link href={"/register"} className="text-blue-600 font-semibold hover:underline cursor-pointer">
+      Sign up now
+    </Link>
+  </p>
+</div>
           </form>
         </Form>
       </div>
     </div>
   );
 }
+
+
+

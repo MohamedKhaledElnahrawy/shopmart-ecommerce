@@ -1,20 +1,32 @@
+
 "use client";
 import { useContext, useState } from "react";
 import { Heart, Loader2 } from "lucide-react";
 import { wishlistContext } from "@/context/wishlist.context";
+import { useSession } from "next-auth/react"; // 
+import toast from "react-hot-toast"; 
 
 export default function WishlistHeart({ productId }: { productId: string }) {
   const context = useContext(wishlistContext);
+  const { data: session } = useSession(); 
   
   const [isLoading, setIsLoading] = useState(false);
 
   if (!context) return null;
 
   const { wishlistIds, handleToggleWishlist } = context;
-
   const isExist = wishlistIds.includes(productId);
 
   const onToggle = async () => {
+    if (!session) {
+      toast.error("Please log in first!", {
+        duration: 3000,
+        position: "top-center",
+        icon: '🔒',
+      });
+      return; 
+    }
+
     setIsLoading(true);
     await handleToggleWishlist(productId);
     setIsLoading(false);
@@ -42,5 +54,3 @@ export default function WishlistHeart({ productId }: { productId: string }) {
     </div>
   );
 }
-
-

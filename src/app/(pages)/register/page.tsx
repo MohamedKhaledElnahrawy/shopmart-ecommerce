@@ -15,13 +15,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { AuthRegisterInterface } from "@/Interfaces/authInterface";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff ,Loader2} from "lucide-react";
 import { registerSchema } from "@/app/scema/auth.scema";
+import Link from "next/link";
 
 export default function Register() {
   const router = useRouter();
   const [showPass, setShowPass] = useState(true);
   const [showRePass, setShowRePass] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const myForm = useForm<AuthRegisterInterface>({
     defaultValues: {
@@ -36,9 +38,8 @@ export default function Register() {
   });
 
 
-
   async function handleRegister(values: AuthRegisterInterface) {
-    const isloading = toast.loading("Please wait...");
+    setIsSubmitting(true); 
 
     try {
       const response = await fetch(
@@ -59,22 +60,16 @@ export default function Register() {
       }
 
       if (data.message === "success") {
-        console.log("✅ Registration successful");
-        toast.success("account created successfully", { duration: 3000 });
+        toast.success("Account created successfully", { duration: 3000 });
         router.push("/login");
-      } else {
-        console.log("❌ Registration failed:", data.message);
       }
-
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       toast.error(error.message, { duration: 3000 });
-      console.error("🚨 Register Error:", error.message);
     } finally {
-      toast.dismiss(isloading);
+      setIsSubmitting(false); 
     }
   }
-
   return (
     <div>
       <div className="w-1/2 mx-auto my-12">
@@ -207,13 +202,33 @@ export default function Register() {
                 </FormItem>
               )}
             />
+
             <Button
-              className="w-full mt-4 bg-green-600 hover:bg-green-700"
+              className="w-full mt-4 bg-green-600 hover:bg-green-700 flex items-center justify-center gap-2"
               type="submit"
+              disabled={isSubmitting} 
               suppressHydrationWarning
             >
-              Register
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="animate-spin size-5" />
+                  Processing...
+                </>
+              ) : (
+                "Register"
+              )}
             </Button>
+
+            <p className="text-center mt-4 text-sm text-gray-700">
+              Already have an account?{" "}
+              <Link 
+                href="/login" 
+                className="text-blue-600 font-bold hover:underline"
+              >
+                Login here
+              </Link>
+            </p>
+            
           </form>
         </Form>
       </div>
