@@ -6,7 +6,7 @@ export default function Loading() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
         
         {/* Left Column: Image Skeleton */}
-        <div className="col-span-1">
+        <div className="col-span-1 ps-6 md:ps-0">
           <div className="aspect-square bg-gray-200 rounded-2xl w-full"></div>
           {/* Thumbnail dots simulation */}
           <div className="flex justify-center gap-2 mt-4">

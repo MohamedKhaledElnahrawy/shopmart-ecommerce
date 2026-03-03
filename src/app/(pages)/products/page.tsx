@@ -45,7 +45,7 @@ export default async function Products() {
           <div key={product._id} className=" rounded-lg   ">
             <Card className="overflow-hidden pt-0 ">
               <Link href={`/products/${product._id}`}>
-                <div className=" -m-1 -mt-6">
+                <div className=" -m-1 -mt-6 ">
                   <Image
                     src={product.imageCover}
                     alt={product.title}
@@ -54,7 +54,7 @@ export default async function Products() {
                     className="w-full relative z-20 object-cover"
                   />
                 </div>
-                <CardHeader className="mt-2">
+                <CardHeader className="mt-2 py-2">
                   <CardDescription>{product.brand.name}</CardDescription>
                   <CardTitle className="line-clamp-1">
                     {product.title}

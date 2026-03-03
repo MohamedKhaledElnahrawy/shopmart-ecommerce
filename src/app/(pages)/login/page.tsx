@@ -31,29 +31,29 @@ export default function Register() {
     resolver: zodResolver(loginSchema),
     mode: "all",
   });
-async function handleLogin(values: AuthLoginInterface) {
-  setIsSubmitting(true); 
-  
-  try {
-    const response: SignInResponse | undefined = await signIn("credentials", {
-      email: values.email,
-      password: values.password,
-      redirect: false,
-    });
+  async function handleLogin(values: AuthLoginInterface) {
+    setIsSubmitting(true);
 
-    if (response?.ok) {
-      toast.success("Logged in successfully", { duration: 2000 });
-      window.location.href = "/"; 
-    } else {
-      toast.error(response?.error || "Login failed", { duration: 2000 });
-      myForm.reset();
+    try {
+      const response: SignInResponse | undefined = await signIn("credentials", {
+        email: values.email,
+        password: values.password,
+        redirect: false,
+      });
+
+      if (response?.ok) {
+        toast.success("Logged in successfully", { duration: 2000 });
+        window.location.href = "/";
+      } else {
+        toast.error(response?.error || "Login failed", { duration: 2000 });
+        myForm.reset();
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsSubmitting(false);
     }
-  } catch (error) {
-    console.error(error);
-  } finally {
-    setIsSubmitting(false); 
   }
-}
   return (
     <div>
       <div className="w-1/2 mx-auto my-12">
@@ -90,76 +90,75 @@ async function handleLogin(values: AuthLoginInterface) {
                   <FormControl>
                     <div className="relative">
                       <div>
-
-                      <Input
-                        suppressHydrationWarning
-                        type={showPass ? "password" : "text"}
-                        placeholder="password"
-                        {...field}
-                      />
-
-                      {showPass ? (
-                        <Eye
-                          size={18}
-                          strokeWidth={1.5}
-                          className="absolute right-2 top-2 cursor-pointer"
-                          onClick={() => setShowPass(false)}
+                        <Input
+                          suppressHydrationWarning
+                          type={showPass ? "password" : "text"}
+                          placeholder="password"
+                          {...field}
                         />
-                      ) : (
-                        <EyeOff
-                          size={18}
-                          strokeWidth={1.5}
-                          className="absolute right-2 top-2 cursor-pointer"
-                          onClick={() => setShowPass(true)}
-                        />
-                      )}
+
+                        {showPass ? (
+                          <Eye
+                            size={18}
+                            strokeWidth={1.5}
+                            className="absolute right-2 top-2 cursor-pointer"
+                            onClick={() => setShowPass(false)}
+                          />
+                        ) : (
+                          <EyeOff
+                            size={18}
+                            strokeWidth={1.5}
+                            className="absolute right-2 top-2 cursor-pointer"
+                            onClick={() => setShowPass(true)}
+                          />
+                        )}
                       </div>
                     </div>
-
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
 
-            <div className="flex flex-col gap-4">
-  <div className="flex justify-between items-center">
-   <Button
-  className="mt-4 bg-green-600 hover:bg-green-700 flex items-center gap-2"
-  type="submit"
-  disabled={isSubmitting} 
-  suppressHydrationWarning
->
-  {isSubmitting ? (
-    <>
-      <Loader2 className="animate-spin size-4" /> 
-      Please wait...
-    </>
-  ) : (
-    "Login"
-  )}
-</Button>
-    <Link
-      className="text-sm text-blue-600 hover:underline cursor-pointer"
-      href={"/forgetPassword"}
-    >
-      Forget password?
-    </Link>
-  </div>
+            <div className="flex flex-col gap-4 pt-2">
+              <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
+                <Button
+                  className="w-full md:w-auto bg-green-600 hover:bg-green-700 flex items-center justify-center gap-2"
+                  type="submit"
+                  disabled={isSubmitting}
+                  suppressHydrationWarning
+                >
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="animate-spin size-4" />
+                      Please wait...
+                    </>
+                  ) : (
+                    "Login"
+                  )}
+                </Button>
 
-  <p className="text-sm text-gray-600">
-    Do not have an account?
-    <Link href={"/register"} className="text-blue-600 font-semibold hover:underline cursor-pointer">
-      Sign up now
-    </Link>
-  </p>
-</div>
+                <Link
+                  className="text-sm text-blue-600 hover:underline cursor-pointer text-center md:text-left"
+                  href={"/forgetPassword"}
+                >
+                  Forget password?
+                </Link>
+              </div>
+
+              <p className="text-sm text-gray-600 text-center md:text-left">
+                Don not have an account?{" "}
+                <Link
+                  href={"/register"}
+                  className="text-blue-600 font-semibold hover:underline cursor-pointer"
+                >
+                  Sign up now
+                </Link>
+              </p>
+            </div>
           </form>
         </Form>
       </div>
     </div>
   );
 }
-
-
-
