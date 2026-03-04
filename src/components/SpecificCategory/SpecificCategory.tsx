@@ -24,7 +24,6 @@ export default function SpecificCategory({ id }: { id: string }) {
 
         const data: CategoryDetailsResponse =
           await getSpecificCategoriesAction(id);
-        console.log("🚀 ~ handleSpecificCategory ~ data:", data);
 
         setSpecificData(data);
       } catch (error) {

@@ -21,7 +21,6 @@ import WishlistHeart from "@/components/wishlistHeart/WishlistHeart";
 
 export default async function Products() {
   const data: ProductResponse = await getProduct();
-  console.log("🚀 ~ Products ~ data:", data);
 
   if (!data || !data.data.length) {
     return (

@@ -10,7 +10,6 @@ export default async function Brands() {
   const data: BrandResponse = await getAllBrandsAction({
     limit: 20,
   });
-  console.log("🚀 ~ handleAllbrands ~ data:", data);
 
 
   return (

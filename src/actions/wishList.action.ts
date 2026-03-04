@@ -28,14 +28,14 @@ export async function addToWishlistAction(productId: string) {
 // ******************************************************************
 
 export async function getWishlistAction() {
-  const token = await getMyToken(); // بنجيب التوكن بنفس طريقتك الذكية
+  const token = await getMyToken(); 
 
   const response = await fetch(`https://ecommerce.routemisr.com/api/v1/wishlist`, {
     method: "GET",
     headers: {
       token: `${token}`,
     },
-    next: { revalidate: 0 } // عشان يقرأ البيانات الجديدة دايماً
+    next: { revalidate: 0 } 
   });
 
   if (!response.ok) {

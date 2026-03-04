@@ -30,7 +30,6 @@ export default function SpecificBrand({id}:{id:string}) {
     
             const data: BrandDetailsResponse =
               await getSpecificBrandsAction(id);
-            console.log("🚀 ~ handleSpecificCategory ~ data:", data);
     
             setSpecificData(data);
           } catch (error) {

@@ -4,6 +4,7 @@
 import { getUserCart } from "@/actions/Cart.action";
 import { createContext, useEffect, useState, ReactNode } from "react";
 import { CartItem, CartRes } from "@/Interfaces/CartInterface";
+import { getMyToken } from "@/utilities/GetMyToken";
 
 type CartContextType = {
   numOfCartItems: number | null;
@@ -28,6 +29,8 @@ export default function CartProvider({ children }: Props) {
 
   async function handleNumberOfCartItemsAndDisplayData() {
     try {
+      const token = await getMyToken();
+      if (!token) return;
       const data = await getUserCart();
 
       if (data?.status === "success") {

@@ -13,8 +13,6 @@ export async function addToCartAction(productId: string) {
     };
   }
 
-  if (token) {
-    console.log("🚀 ~ addToCartAction ~ token:", token)
     const response = await fetch(
       "https://ecommerce.routemisr.com/api/v1/cart",
       {
@@ -31,9 +29,7 @@ export async function addToCartAction(productId: string) {
     const data = await response.json();
 
     return data;
-  } else {
-    return null;
-  }
+  
 }
 
 

@@ -12,7 +12,6 @@ export default async function Categories() {
     limit: 20,
     page: 1,
   });
-  console.log("🚀 ~ handleAllCategories ~ data:", data);
 
 
   return (
